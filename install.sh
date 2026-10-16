@@ -1,18 +1,29 @@
 #!/data/data/com.termux/files/usr/bin/bash
-echo "Setting up Personal AI Agent..."
-pkg update -y && pkg install python git -y
-pip install --upgrade pip
-pip install -r requirements.txt
 
-cat << 'RUNEOF' > start_agent.sh
+echo "=========================================="
+echo "  Setting up Personal AI Agent..."
+echo "=========================================="
+
+# টার্মাক্স আপডেট এবং প্রয়োজনীয় টুলস ইনস্টল
+pkg update -y
+pkg install python git -y
+
+# পাইথন প্যাকেজগুলো pip দিয়ে দ্রুত ইনস্টল করা
+pip install --upgrade pip --break-system-packages 2>/dev/null || true
+pip install -r requirements.txt --break-system-packages 2>/dev/null || pip install -r requirements.txt
+
+# কারেন্ট ডিরেক্টরি মনে রেখে runai শর্টকাট তৈরি
+CURRENT_DIR=$(pwd)
+
+cat << RUNEOF > $PREFIX/bin/runai
 #!/data/data/com.termux/files/usr/bin/bash
-cd $(dirname "$0")
-python -m streamlit run main.py &
-sleep 3
-termux-open-url http://localhost:8501
+cd "$CURRENT_DIR"
+streamlit run main.py
 RUNEOF
 
-chmod +x start_agent.sh
-mkdir -p $PREFIX/bin
-ln -sf $(pwd)/start_agent.sh $PREFIX/bin/runai
-echo "Setup Complete! Just type: runai"
+chmod +x $PREFIX/bin/runai
+
+echo "=========================================="
+echo "  Setup Complete! Enjoy your AI. 🚀"
+echo "  Just type: runai"
+echo "=========================================="
