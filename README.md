@@ -13,6 +13,7 @@ An advanced, lightweight personal AI assistant built for Termux and Python envir
 - **One-Command Setup:** Automated installer designed specifically for Termux users.
 
 ---
+*First you need minimum 1 API key , collect API key free from openrouter & groq . then paste API keys on config.py file*
 
 ## 🚀 One-Click Installation for Termux
 
